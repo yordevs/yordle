@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useCookies } from "react-cookie";
 import { v4 as uuidv4 } from "uuid";
+import Keyboard from "./Keyboard";
 
 function App() {
 	const [letterStateHistory, setLetterStateHistory] = useState<
@@ -60,6 +61,7 @@ function App() {
 	return (
 		<div className="App">
 			<h1>Hello, world!</h1>
+			<Keyboard />
 		</div>
 	);
 }
