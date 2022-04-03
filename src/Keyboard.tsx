@@ -1,11 +1,23 @@
 import { useState, useEffect } from "react";
 import { Key } from "./Key";
+import type { LetterMapping } from "./App";
 
-export default function Keyboard() {
+type Props = {
+	sendGuess: () => void;
+	addLetterToGuess: (letter: string) => void;
+	removeLetterFromGuess: () => void;
+	letterStateHistory: LetterMapping[];
+};
+
+export const Keyboard = ({
+	sendGuess,
+	addLetterToGuess,
+	removeLetterFromGuess,
+	letterStateHistory,
+}: Props) => {
 	useEffect(() => {
 		// handle what happens on key press
 		const handleKeyPress = (event: KeyboardEvent) => {
-			console.log("Keyboard Press");
 			handleLetter(event.key.toUpperCase());
 		};
 
@@ -19,9 +31,32 @@ export default function Keyboard() {
 	});
 
 	const onClick = (value: string) => {
-		console.log("Button Click");
+		// call back to handle what happens on button press
 		handleLetter(value.toUpperCase());
 	};
+
+	function handleLetter(letter: string) {
+		// handle the different key types: Backspace, Enter, Letter, Other
+		if (letter == "<--") {
+			removeLetterFromGuess();
+		} else if (letter == "ENTER") {
+			sendGuess();
+		} else if (checkIfLetter(letter)) {
+			console.log(letter);
+			addLetterToGuess(letter);
+		} else {
+			console.log("Not a valid character"); //TODO Do we just continue on and ignore it? or should be alert the user that that is not a valid key
+		}
+	}
+
+	function updateKeyboardColour(letter: string) {
+		letterStateHistory.map((element) => {
+			if (element[letter] != null) {
+				return element[letter];
+			}
+		});
+		return "";
+	}
 
 	return (
 		<div
@@ -35,7 +70,12 @@ export default function Keyboard() {
 					justifyContent: "center",
 				}}>
 				{["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"].map((key) => (
-					<Key value={key} key={key} onClick={onClick} />
+					<Key
+						value={key}
+						key={key}
+						onClick={onClick}
+						colour={updateKeyboardColour(key)}
+					/>
 				))}
 			</div>
 			<div
@@ -44,7 +84,12 @@ export default function Keyboard() {
 					justifyContent: "center",
 				}}>
 				{["A", "S", "D", "F", "G", "H", "J", "K", "L"].map((key) => (
-					<Key value={key} key={key} onClick={onClick} />
+					<Key
+						value={key}
+						key={key}
+						onClick={onClick}
+						colour={updateKeyboardColour(key)}
+					/>
 				))}
 			</div>
 			<div
@@ -52,34 +97,18 @@ export default function Keyboard() {
 					display: "flex",
 					justifyContent: "center",
 				}}>
-				{["ENTER", "Z", "X", "C", "V", "B", "N", "M", "BACKSPACE"].map(
-					(key) => (
-						<Key value={key} key={key} onClick={onClick} />
-					),
-				)}
+				{["ENTER", "Z", "X", "C", "V", "B", "N", "M", "<--"].map((key) => (
+					<Key
+						value={key}
+						key={key}
+						onClick={onClick}
+						colour={updateKeyboardColour(key)}
+					/>
+				))}
 			</div>
 		</div>
 	);
-}
-
-function removeLetterFromCurrentGuess() {
-	throw new Error("Function not implemented.");
-}
-function sendGuess() {
-	throw new Error("Function not implemented.");
-}
-
-function handleLetter(letter: string) {
-	if (letter == "BACKSPACE") {
-		removeLetterFromCurrentGuess();
-	} else if (letter == "ENTER") {
-		sendGuess();
-	} else if (checkIfLetter(letter)) {
-		console.log(letter);
-	} else {
-		console.log("Not a valid character");
-	}
-}
+};
 
 function checkIfLetter(letter: string) {
 	const letters = [
