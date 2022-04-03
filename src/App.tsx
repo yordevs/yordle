@@ -7,9 +7,10 @@ function App() {
 		{ letter: string; colour: string }[][]
 	>([]);
 	const [guesses, setGuesses] = useState<string[]>(["hello", "there", "world"]);
-
 	const [cookies, setCookie] = useCookies(["uuid"]);
 
+	// Check if the user already has a UUID cookie on their machine, creating
+	// one if not.
 	useEffect(() => {
 		if (!cookies.uuid) {
 			setCookie("uuid", uuidv4(), { sameSite: "strict" });
@@ -29,26 +30,30 @@ function App() {
 
 		const data: string[] = await res.json();
 
+		// Map each colour from the response to its corresponding letter of the guess.
 		const letterMappings = data.map((colour, i) => {
 			return { letter: guess[i], colour };
 		});
 
+		// Retrieve the most recent version of the letter mappings.
 		const prevMapping = letterStateHistory[letterStateHistory.length - 1];
 
-		setLetterStateHistory([
-			...letterStateHistory,
-			{
-				...prevMapping,
-				...letterMappings,
-			},
-		]);
+		// Create an updated version of the letter mapping with this new information.
+		const newMapping = { ...prevMapping, ...letterMappings };
+
+		setLetterStateHistory([...letterStateHistory, newMapping]);
+
+		// Add new (empty) entry for the next guess.
+		setGuesses([...guesses, ""]);
 	}
 
 	function addLetterToGuess(letter: string) {
 		const currentGuess = guesses[guesses.length - 1];
 
+		// Ignore adding any new letters if the current guess is already 5 letters long.
 		if (currentGuess.length >= 5) return;
 
+		// Otherwise, append the letter to the current guess.
 		setGuesses([...guesses.slice(-2), currentGuess + letter]);
 	}
 
