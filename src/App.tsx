@@ -3,6 +3,7 @@ import { useCookies } from "react-cookie";
 import { v4 as uuidv4 } from "uuid";
 import { Keyboard } from "./Keyboard";
 import { GuessRenderer } from "./GuessRenderer";
+import styled from "styled-components";
 
 type ResponseBody = {
 	valid: boolean;
@@ -12,6 +13,11 @@ type ResponseBody = {
 };
 
 export type LetterMapping = { [key: string]: string };
+
+const Container = styled.div`
+	max-width: 960px;
+	margin: 0 auto;
+`;
 
 function App() {
 	const [letterStateHistory, setLetterStateHistory] = useState<LetterMapping[]>(
@@ -76,15 +82,8 @@ function App() {
 			newMapping[letter] = colour;
 		});
 
-		// Retrieve the most recent version of the letter mappings.
-		const prevMapping = letterStateHistory[letterStateHistory.length - 1];
-
-		// Create an updated version of the letter mapping with this new information.
-		// const newMapping = { ...prevMapping, ...letterMappings };
-
 		setLetterStateHistory([...letterStateHistory, newMapping]);
 
-		// Add new (empty) entry for the next guess.
 		setGuessNumber((prev) => prev + 1);
 		setGuesses([...guesses, currentGuess]);
 		setCurrentGuess("");
@@ -95,7 +94,6 @@ function App() {
 		if (currentGuess.length >= 5) return;
 		//takes current guess and adds on the latest added letter
 		setCurrentGuess((prev) => prev + letter);
-		//updates the array of guesses to be displayed on the screen
 	}
 
 	function removeLetterFromGuess() {
@@ -107,14 +105,15 @@ function App() {
 
 	return (
 		<div className="App">
-			<h1>Hello, world!</h1>
-			<GuessRenderer guesses={guesses} colorHistory={colorHistory} />
-			<Keyboard
-				addLetterToGuess={addLetterToGuess}
-				sendGuess={sendGuess}
-				removeLetterFromGuess={removeLetterFromGuess}
-				letterStateHistory={letterStateHistory}
-			/>
+			<Container>
+				<GuessRenderer guesses={guesses} colorHistory={colorHistory} />
+				<Keyboard
+					addLetterToGuess={addLetterToGuess}
+					sendGuess={sendGuess}
+					removeLetterFromGuess={removeLetterFromGuess}
+					letterStateHistory={letterStateHistory}
+				/>
+			</Container>
 		</div>
 	);
 }
