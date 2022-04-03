@@ -64,11 +64,7 @@ export const Keyboard = ({
 				display: "flex",
 				flexDirection: "column",
 			}}>
-			<div
-				style={{
-					display: "flex",
-					justifyContent: "center",
-				}}>
+			<div>
 				{["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"].map((key) => (
 					<Key
 						value={key}
@@ -78,11 +74,7 @@ export const Keyboard = ({
 					/>
 				))}
 			</div>
-			<div
-				style={{
-					display: "flex",
-					justifyContent: "center",
-				}}>
+			<div>
 				{["A", "S", "D", "F", "G", "H", "J", "K", "L"].map((key) => (
 					<Key
 						value={key}
@@ -92,11 +84,7 @@ export const Keyboard = ({
 					/>
 				))}
 			</div>
-			<div
-				style={{
-					display: "flex",
-					justifyContent: "center",
-				}}>
+			<div>
 				{["↵", "Z", "X", "C", "V", "B", "N", "M", "🠔"].map((key) => (
 					<Key
 						value={key}

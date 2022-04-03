@@ -1,4 +1,23 @@
 import { useState } from "react";
+import styled, { css } from "styled-components";
+
+const Letters = styled.button`
+	width: 40px;
+	height: 58px;
+	font-weight: bold;
+	border-radius: 4px;
+	margin: 3px;
+	font-size: large;
+`;
+
+const Action = styled.button`
+	width: 60px;
+	height: 58px;
+	font-weight: bold;
+	border-radius: 4px;
+	margin: 3px;
+	font-size: large;
+`;
 
 type Props = {
 	value: string;
@@ -11,9 +30,13 @@ export const Key = ({ value, onClick, colour }: Props) => {
 		onClick(value);
 	};
 
-	return (
-		<button onClick={handleClick} style={{ background: colour }}>
-			{value}
-		</button>
-	);
+	if (value === "↵" || value === "🠔") {
+		return <Action onClick={handleClick}>{value}</Action>;
+	} else {
+		return (
+			<Letters onClick={handleClick} style={{ background: colour }}>
+				{value}
+			</Letters>
+		);
+	}
 };
