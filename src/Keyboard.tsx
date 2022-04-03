@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Key } from "./Key";
 import type { LetterMapping } from "./App";
+import styled from "styled-components";
 
 type Props = {
 	sendGuess: () => void;
@@ -8,6 +9,22 @@ type Props = {
 	removeLetterFromGuess: () => void;
 	letterStateHistory: LetterMapping[];
 };
+
+const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	padding: 15px 0;
+
+	width: 100%;
+`;
+
+const Row = styled.div`
+	display: flex;
+	width: 100%;
+	justify-content: center;
+`;
 
 export const Keyboard = ({
 	sendGuess,
@@ -59,12 +76,8 @@ export const Keyboard = ({
 	}
 
 	return (
-		<div
-			style={{
-				display: "flex",
-				flexDirection: "column",
-			}}>
-			<div>
+		<Container>
+			<Row>
 				{["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"].map((key) => (
 					<Key
 						value={key}
@@ -73,8 +86,8 @@ export const Keyboard = ({
 						colour={updateKeyboardColour(key)}
 					/>
 				))}
-			</div>
-			<div>
+			</Row>
+			<Row>
 				{["A", "S", "D", "F", "G", "H", "J", "K", "L"].map((key) => (
 					<Key
 						value={key}
@@ -83,8 +96,8 @@ export const Keyboard = ({
 						colour={updateKeyboardColour(key)}
 					/>
 				))}
-			</div>
-			<div>
+			</Row>
+			<Row>
 				{["↵", "Z", "X", "C", "V", "B", "N", "M", "🠔"].map((key) => (
 					<Key
 						value={key}
@@ -93,8 +106,8 @@ export const Keyboard = ({
 						colour={updateKeyboardColour(key)}
 					/>
 				))}
-			</div>
-		</div>
+			</Row>
+		</Container>
 	);
 };
 

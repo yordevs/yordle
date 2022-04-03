@@ -7,7 +7,8 @@ const Letters = styled.button`
 	font-weight: bold;
 	border-radius: 4px;
 	margin: 3px;
-	font-size: large;
+	font-size: 24px;
+	font-family: inherit;
 `;
 
 const Action = styled.button`
@@ -16,7 +17,8 @@ const Action = styled.button`
 	font-weight: bold;
 	border-radius: 4px;
 	margin: 3px;
-	font-size: large;
+	font-size: 24px;
+	font-family: inherit;
 `;
 
 type Props = {

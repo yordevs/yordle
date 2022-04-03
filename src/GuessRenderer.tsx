@@ -14,11 +14,18 @@ const Container = styled.div`
 	display: flex;
 	gap: 10px;
 	flex-direction: column;
+	align-items: center;
+	width: 100%;
+
+	padding: 10px 0;
 `;
 
 const Row = styled.div`
 	display: flex;
 	gap: 10px;
+	width: 95%;
+	justify-content: center;
+	padding: 0 10px;
 `;
 
 const Cell = styled.div<ICell>`

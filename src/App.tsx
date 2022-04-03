@@ -4,6 +4,9 @@ import { v4 as uuidv4 } from "uuid";
 import { Keyboard } from "./Keyboard";
 import { GuessRenderer } from "./GuessRenderer";
 import styled from "styled-components";
+import "@fontsource/roboto";
+
+import { GlobalStyle } from "./globalStyles";
 
 type ResponseBody = {
 	valid: boolean;
@@ -15,8 +18,16 @@ type ResponseBody = {
 export type LetterMapping = { [key: string]: string };
 
 const Container = styled.div`
-	max-width: 960px;
+	max-width: 750px;
 	margin: 0 auto;
+	/* padding: 10px; */
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+
+	height: 100%;
 `;
 
 function App() {
@@ -104,17 +115,20 @@ function App() {
 	}
 
 	return (
-		<div className="App">
-			<Container>
-				<GuessRenderer guesses={guesses} colorHistory={colorHistory} />
-				<Keyboard
-					addLetterToGuess={addLetterToGuess}
-					sendGuess={sendGuess}
-					removeLetterFromGuess={removeLetterFromGuess}
-					letterStateHistory={letterStateHistory}
-				/>
-			</Container>
-		</div>
+		<>
+			<GlobalStyle />
+			<div className="App">
+				<Container>
+					<GuessRenderer guesses={guesses} colorHistory={colorHistory} />
+					<Keyboard
+						addLetterToGuess={addLetterToGuess}
+						sendGuess={sendGuess}
+						removeLetterFromGuess={removeLetterFromGuess}
+						letterStateHistory={letterStateHistory}
+					/>
+				</Container>
+			</div>
+		</>
 	);
 }
 
