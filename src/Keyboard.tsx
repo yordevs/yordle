@@ -52,11 +52,9 @@ export default function Keyboard() {
 					display: "flex",
 					justifyContent: "center",
 				}}>
-				{["ENTER", "Z", "X", "C", "V", "B", "N", "M", "BACKSPACE"].map(
-					(key) => (
-						<Key value={key} key={key} onClick={onClick} />
-					),
-				)}
+				{["↵", "Z", "X", "C", "V", "B", "N", "M", "🠔"].map((key) => (
+					<Key value={key} key={key} onClick={onClick} />
+				))}
 			</div>
 		</div>
 	);
