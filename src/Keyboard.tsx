@@ -37,9 +37,9 @@ export const Keyboard = ({
 
 	function handleLetter(letter: string) {
 		// handle the different key types: Backspace, Enter, Letter, Other
-		if (letter == "<--") {
+		if (letter === "🠔" || letter === "BACKSPACE") {
 			removeLetterFromGuess();
-		} else if (letter == "ENTER") {
+		} else if (letter == "↵" || letter == "ENTER") {
 			sendGuess();
 		} else if (checkIfLetter(letter)) {
 			console.log(letter);
@@ -51,7 +51,7 @@ export const Keyboard = ({
 
 	function updateKeyboardColour(letter: string) {
 		letterStateHistory.map((element) => {
-			if (element[letter] != null) {
+			if (element[letter] !== null) {
 				return element[letter];
 			}
 		});

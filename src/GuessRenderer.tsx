@@ -13,7 +13,7 @@ export function GuessRenderer({ guesses, colorHistory }: Props) {
 	}, [colorHistory]);
 
 	function getLetterColour(guessNumber: number, letterIndex: number) {
-		if (!colorHistory[guessNumber]) return "grey";
+		if (!colorHistory[guessNumber]) return "#efefef";
 
 		return colorHistory[guessNumber][letterIndex];
 	}
@@ -35,16 +35,11 @@ export function GuessRenderer({ guesses, colorHistory }: Props) {
 								key={char}
 								style={{
 									padding: 15,
-									background: "#efefef",
 									border: "2px solid #1d1d1d",
+									backgroundColor: getLetterColour(row, char),
 								}}>
 								{guesses[row] && guesses[row][char] ? (
-									<span
-										style={{
-											backgroundColor: getLetterColour(row, char),
-										}}>
-										{guesses[row][char]}
-									</span>
+									<span style={{}}>{guesses[row][char]}</span>
 								) : null}
 							</div>
 						))}
