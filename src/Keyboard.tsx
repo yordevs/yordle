@@ -97,7 +97,7 @@ export const Keyboard = ({
 					display: "flex",
 					justifyContent: "center",
 				}}>
-				{["ENTER", "Z", "X", "C", "V", "B", "N", "M", "<--"].map((key) => (
+				{["↵", "Z", "X", "C", "V", "B", "N", "M", "🠔"].map((key) => (
 					<Key
 						value={key}
 						key={key}
