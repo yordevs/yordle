@@ -245,8 +245,8 @@ function App() {
 		storeState("guessNumber", (guessNumber + 1).toString());
 		setGuessNumber((prev) => prev + 1);
 
+		storeState("guesses", JSON.stringify([...guesses, ""]));
 		setGuesses([...guesses, currentGuess]);
-		storeState("guesses", JSON.stringify([...guesses]));
 
 		setCurrentGuess("");
 	}
