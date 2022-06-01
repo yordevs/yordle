@@ -164,7 +164,7 @@ function App() {
 	}
 
 	function storeState(id: string, value: string) {
-		//localStorage.setItem(id, value);
+		localStorage.setItem(id, value);
 	}
 
 	async function sendGuess() {
