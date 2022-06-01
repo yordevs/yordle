@@ -37,6 +37,7 @@ const Container = styled.div`
 `;
 
 const InvalidHolder = styled.div`
+	z-index: 200;
 	position: absolute;
 	top: 10em;
 	left: 50%;
@@ -44,6 +45,21 @@ const InvalidHolder = styled.div`
 `;
 
 const Invalid = styled.div`
+	background-color: black;
+	color: white;
+	border-radius: 3px;
+	padding: 5px;
+`;
+
+const AnswerHolder = styled.div`
+	z-index: 200;
+	position: absolute;
+	top: 10em;
+	left: 50%;
+	transform: translate(-50%, -50%);
+`;
+
+const Answer = styled.div`
 	background-color: black;
 	color: white;
 	border-radius: 3px;
@@ -64,6 +80,8 @@ function App() {
 	const [showInvalid, setShowInvalid] = useState(false);
 	const [showStatsModal, setShowStatsModal] = useState(false);
 	const [showHelpModal, setShowHelpModal] = useState(false);
+	const [answer, setAnswer] = useState("");
+	const [showAnswer, setShowAnswer] = useState(false);
 
 	useEffect(() => {
 		setGuesses((guesses) => [...guesses.slice(0, -1), currentGuess]);
@@ -146,7 +164,7 @@ function App() {
 	}
 
 	function storeState(id: string, value: string) {
-		localStorage.setItem(id, value);
+		//localStorage.setItem(id, value);
 	}
 
 	async function sendGuess() {
@@ -216,6 +234,11 @@ function App() {
 			updateStats(false);
 			setGameOver(true);
 			storeState("gameOver", "true");
+			setAnswer(data.answer || "");
+			setShowAnswer(true);
+			setTimeout(() => {
+				setShowAnswer(false);
+			}, 3000);
 			showStats();
 		}
 
@@ -249,6 +272,9 @@ function App() {
 				<InvalidHolder>
 					{showInvalid ? <Invalid>Word not in list</Invalid> : null}
 				</InvalidHolder>
+				<AnswerHolder>
+					{showAnswer ? <Answer>{answer}</Answer> : null}
+				</AnswerHolder>
 				<StatsModal
 					show={showStatsModal}
 					gameOver={gameOver}

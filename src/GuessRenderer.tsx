@@ -28,6 +28,7 @@ const Row = styled.div`
 `;
 
 const Cell = styled.div<ICell>`
+	z-index: 10;
 	display: flex;
 	justify-content: center;
 	align-items: center;
