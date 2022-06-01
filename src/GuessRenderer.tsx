@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import styled from "styled-components";
 
 type Props = {
@@ -62,11 +61,14 @@ export function GuessRenderer({ guesses, colorHistory }: Props) {
 		<Container>
 			{[0, 1, 2, 3, 4, 5].map((row) => (
 				<Row key={row}>
-					{[0, 1, 2, 3, 4].map((char) => (
-						<Cell key={char} getColour={getLetterColour(row, char)}>
-							{guesses[row] && guesses[row][char] ? guesses[row][char] : null}
-						</Cell>
-					))}
+					{[0, 1, 2, 3, 4].map((char) => {
+						//console.log(guesses);
+						return (
+							<Cell key={char} getColour={getLetterColour(row, char)}>
+								{guesses[row] && guesses[row][char] ? guesses[row][char] : null}
+							</Cell>
+						);
+					})}
 				</Row>
 			))}
 		</Container>

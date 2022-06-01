@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Key } from "./Key";
 import type { LetterMapping } from "./App";
 import styled from "styled-components";
@@ -8,6 +8,7 @@ type Props = {
 	addLetterToGuess: (letter: string) => void;
 	removeLetterFromGuess: () => void;
 	letterStateHistory: LetterMapping[];
+	gameOver: boolean;
 };
 
 const Container = styled.div`
@@ -31,11 +32,14 @@ export const Keyboard = ({
 	addLetterToGuess,
 	removeLetterFromGuess,
 	letterStateHistory,
+	gameOver,
 }: Props) => {
 	useEffect(() => {
 		// handle what happens on key press
 		const handleKeyPress = (event: KeyboardEvent) => {
-			handleLetter(event.key.toUpperCase());
+			if (!gameOver) {
+				handleLetter(event.key.toUpperCase());
+			}
 		};
 
 		// attach the event listener
@@ -49,7 +53,9 @@ export const Keyboard = ({
 
 	const onClick = (value: string) => {
 		// call back to handle what happens on button press
-		handleLetter(value.toUpperCase());
+		if (!gameOver) {
+			handleLetter(value.toUpperCase());
+		}
 	};
 
 	function handleLetter(letter: string) {
@@ -59,7 +65,6 @@ export const Keyboard = ({
 		} else if (letter == "↵" || letter == "ENTER") {
 			sendGuess();
 		} else if (checkIfLetter(letter)) {
-			console.log(letter);
 			addLetterToGuess(letter);
 		} else {
 			console.log("Not a valid character"); //TODO Do we just continue on and ignore it? or should be alert the user that that is not a valid key

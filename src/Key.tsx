@@ -1,5 +1,4 @@
-import { useState } from "react";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 
 const Letters = styled.button`
 	width: 40px;
@@ -28,7 +27,7 @@ type Props = {
 };
 
 export const Key = ({ value, onClick, colour }: Props) => {
-	const handleClick: React.MouseEventHandler<HTMLButtonElement> = (event) => {
+	const handleClick: React.MouseEventHandler<HTMLButtonElement> = () => {
 		onClick(value);
 	};
 

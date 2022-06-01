@@ -7,6 +7,11 @@ import styled from "styled-components";
 import "@fontsource/roboto";
 
 import { GlobalStyle } from "./globalStyles";
+import { Header } from "./Header";
+import { StatsModal } from "./StatsModal";
+import { HelpModal } from "./HelpModal";
+
+/* eslint-disable  @typescript-eslint/no-non-null-assertion */
 
 type ResponseBody = {
 	valid: boolean;
@@ -20,7 +25,6 @@ export type LetterMapping = { [key: string]: string };
 const Container = styled.div`
 	max-width: 750px;
 	margin: 0 auto;
-	/* padding: 10px; */
 
 	display: flex;
 	flex-direction: column;
@@ -28,6 +32,22 @@ const Container = styled.div`
 	justify-content: space-between;
 
 	height: 100%;
+	width: 100%;
+	position: relative; /* squeezes header */
+`;
+
+const InvalidHolder = styled.div`
+	position: absolute;
+	top: 10em;
+	left: 50%;
+	transform: translate(-50%, -50%);
+`;
+
+const Invalid = styled.div`
+	background-color: black;
+	color: white;
+	border-radius: 3px;
+	padding: 5px;
 `;
 
 function App() {
@@ -36,21 +56,98 @@ function App() {
 	);
 	const [guesses, setGuesses] = useState<string[]>([]);
 	const [guessNumber, setGuessNumber] = useState(0);
+	const [gameOver, setGameOver] = useState(false);
+	const [gameWon, setGameWon] = useState(false);
 	const [cookies, setCookie] = useCookies(["uuid"]);
 	const [currentGuess, setCurrentGuess] = useState("");
 	const [colorHistory, setColorHistory] = useState<string[][]>([]);
-
-	// Check if the user already has a UUID cookie on their machine, creating
-	// one if not.
-	useEffect(() => {
-		if (!cookies.uuid) {
-			setCookie("uuid", uuidv4(), { sameSite: "strict" });
-		}
-	}, []);
+	const [showInvalid, setShowInvalid] = useState(false);
+	const [showStatsModal, setShowStatsModal] = useState(false);
+	const [showHelpModal, setShowHelpModal] = useState(false);
 
 	useEffect(() => {
 		setGuesses((guesses) => [...guesses.slice(0, -1), currentGuess]);
 	}, [currentGuess]);
+
+	useEffect(() => {
+		// Check if the user already has a UUID cookie on their machine, creating
+		// one if not.
+		if (!cookies.uuid) {
+			setCookie("uuid", uuidv4(), { sameSite: "strict" });
+		}
+
+		const date = new Date();
+		if (
+			localStorage.getItem("lastGuess") ===
+			`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
+		) {
+			console.log(
+				JSON.parse(localStorage.getItem("gameOver") || "false") == true,
+			);
+			setGuesses(JSON.parse(localStorage.getItem("guesses") || "[]"));
+			setGuessNumber(parseInt(localStorage.getItem("guessNumber") || "0"));
+			setGameOver(
+				JSON.parse(localStorage.getItem("gameOver") || "false") == true,
+			);
+			setColorHistory(JSON.parse(localStorage.getItem("colorHistory") || "[]"));
+		}
+	}, []);
+
+	function showStats() {
+		setShowStatsModal(true);
+		document.getElementById("main-container")!.style.filter = "blur(4px)";
+	}
+
+	function hideStats() {
+		setShowStatsModal(false);
+		document.getElementById("main-container")!.style.filter = "";
+	}
+
+	function showHelp() {
+		setShowHelpModal(true);
+		document.getElementById("main-container")!.style.filter = "blur(4px)";
+	}
+
+	function hideHelp() {
+		setShowHelpModal(false);
+		document.getElementById("main-container")!.style.filter = "";
+	}
+
+	function updateStats(win: boolean) {
+		let distribution = JSON.parse(
+			localStorage.getItem("guessDistribution") || "[]",
+		);
+		let played = parseInt(localStorage.getItem("played") || "0");
+		let numWins = parseInt(localStorage.getItem("numWins") || "0");
+		let currentStreak = parseInt(localStorage.getItem("currentStreak") || "0");
+		let maxStreak = parseInt(localStorage.getItem("maxStreak") || "0");
+
+		if (distribution.length === 0) {
+			distribution = [0, 0, 0, 0, 0, 0];
+		}
+		distribution[guessNumber] = distribution[guessNumber] + 1;
+
+		played = played + 1;
+		if (win) {
+			numWins = numWins + 1;
+			currentStreak = currentStreak += 1;
+			if (currentStreak > maxStreak) {
+				maxStreak = currentStreak;
+			}
+		} else {
+			currentStreak = 0;
+		}
+
+		localStorage.setItem("guessDistribution", JSON.stringify(distribution));
+		localStorage.setItem("played", played.toString());
+		localStorage.setItem("numWins", numWins.toString());
+		localStorage.setItem("currentStreak", currentStreak.toString());
+		localStorage.setItem("maxStreak", maxStreak.toString());
+	}
+
+	function storeState(id: string, value: string) {
+		localStorage.setItem(id, value);
+	}
 
 	async function sendGuess() {
 		if (currentGuess.length < 5) return;
@@ -68,26 +165,46 @@ function App() {
 		const data: ResponseBody = await res.json();
 
 		if (!data.valid) {
-			console.log("This word is invalid");
+			setShowInvalid(true);
+			setTimeout(() => {
+				setShowInvalid(false);
+			}, 2000);
 			return;
 		}
 
-		if (data.answer) {
+		const date = new Date();
+		storeState(
+			"lastGuess",
+			`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`,
+		);
+
+		if (
+			data.result?.filter(function (e) {
+				return e !== "green";
+			}).length === 0
+		) {
+			updateStats(true);
+			setGameOver(true);
+			storeState("gameOver", "true");
+			setGameWon(true);
+			setTimeout(showStats, 500);
 			console.log(
-				"The word was: " + data.answer + ". Because: " + data.description,
+				"The word was: " + currentGuess + ". Because: " + data.description,
 			);
 		}
 
 		if (data.result) {
 			setColorHistory([...colorHistory, data.result]);
+			storeState(
+				"colorHistory",
+				JSON.stringify([...colorHistory, data.result]),
+			);
 		}
 
 		const newMapping: LetterMapping = {};
 
 		// Map each colour from the response to its corresponding letter of the guess.
 		data.result?.forEach((colour, i) => {
-			console.log(colour);
-
 			const letter = currentGuess[i];
 
 			newMapping[letter] = colour;
@@ -95,8 +212,19 @@ function App() {
 
 		setLetterStateHistory([...letterStateHistory, newMapping]);
 
+		if (guessNumber + 1 === 6) {
+			updateStats(false);
+			setGameOver(true);
+			storeState("gameOver", "true");
+			showStats();
+		}
+
+		storeState("guessNumber", (guessNumber + 1).toString());
 		setGuessNumber((prev) => prev + 1);
+
 		setGuesses([...guesses, currentGuess]);
+		storeState("guesses", JSON.stringify([...guesses]));
+
 		setCurrentGuess("");
 	}
 
@@ -118,13 +246,27 @@ function App() {
 		<>
 			<GlobalStyle />
 			<div className="App">
-				<Container>
+				<InvalidHolder>
+					{showInvalid ? <Invalid>Word not in list</Invalid> : null}
+				</InvalidHolder>
+				<StatsModal
+					show={showStatsModal}
+					gameOver={gameOver}
+					colourHistory={colorHistory}
+					numGuesses={guessNumber}
+					gameWon={gameWon}
+					onHide={hideStats}
+				/>
+				<HelpModal show={showHelpModal} onHide={hideHelp} />
+				<Container id="main-container">
+					<Header onHelp={showHelp} onStats={showStats} />
 					<GuessRenderer guesses={guesses} colorHistory={colorHistory} />
 					<Keyboard
 						addLetterToGuess={addLetterToGuess}
 						sendGuess={sendGuess}
 						removeLetterFromGuess={removeLetterFromGuess}
 						letterStateHistory={letterStateHistory}
+						gameOver={gameOver}
 					/>
 				</Container>
 			</div>
