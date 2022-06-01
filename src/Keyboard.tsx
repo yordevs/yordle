@@ -1,24 +1,45 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { Key } from "./Key";
 import type { LetterMapping } from "./App";
+import styled from "styled-components";
 
 type Props = {
 	sendGuess: () => void;
 	addLetterToGuess: (letter: string) => void;
 	removeLetterFromGuess: () => void;
 	letterStateHistory: LetterMapping[];
+	gameOver: boolean;
 };
+
+const Container = styled.div`
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	padding: 15px 0;
+
+	width: 100%;
+`;
+
+const Row = styled.div`
+	display: flex;
+	width: 100%;
+	justify-content: center;
+`;
 
 export const Keyboard = ({
 	sendGuess,
 	addLetterToGuess,
 	removeLetterFromGuess,
 	letterStateHistory,
+	gameOver,
 }: Props) => {
 	useEffect(() => {
 		// handle what happens on key press
 		const handleKeyPress = (event: KeyboardEvent) => {
-			handleLetter(event.key.toUpperCase());
+			if (!gameOver) {
+				handleLetter(event.key.toUpperCase());
+			}
 		};
 
 		// attach the event listener
@@ -32,7 +53,9 @@ export const Keyboard = ({
 
 	const onClick = (value: string) => {
 		// call back to handle what happens on button press
-		handleLetter(value.toUpperCase());
+		if (!gameOver) {
+			handleLetter(value.toUpperCase());
+		}
 	};
 
 	function handleLetter(letter: string) {
@@ -42,7 +65,6 @@ export const Keyboard = ({
 		} else if (letter == "↵" || letter == "ENTER") {
 			sendGuess();
 		} else if (checkIfLetter(letter)) {
-			console.log(letter);
 			addLetterToGuess(letter);
 		} else {
 			console.log("Not a valid character"); //TODO Do we just continue on and ignore it? or should be alert the user that that is not a valid key
@@ -59,16 +81,8 @@ export const Keyboard = ({
 	}
 
 	return (
-		<div
-			style={{
-				display: "flex",
-				flexDirection: "column",
-			}}>
-			<div
-				style={{
-					display: "flex",
-					justifyContent: "center",
-				}}>
+		<Container>
+			<Row>
 				{["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P"].map((key) => (
 					<Key
 						value={key}
@@ -77,12 +91,8 @@ export const Keyboard = ({
 						colour={updateKeyboardColour(key)}
 					/>
 				))}
-			</div>
-			<div
-				style={{
-					display: "flex",
-					justifyContent: "center",
-				}}>
+			</Row>
+			<Row>
 				{["A", "S", "D", "F", "G", "H", "J", "K", "L"].map((key) => (
 					<Key
 						value={key}
@@ -91,12 +101,8 @@ export const Keyboard = ({
 						colour={updateKeyboardColour(key)}
 					/>
 				))}
-			</div>
-			<div
-				style={{
-					display: "flex",
-					justifyContent: "center",
-				}}>
+			</Row>
+			<Row>
 				{["↵", "Z", "X", "C", "V", "B", "N", "M", "🠔"].map((key) => (
 					<Key
 						value={key}
@@ -105,8 +111,8 @@ export const Keyboard = ({
 						colour={updateKeyboardColour(key)}
 					/>
 				))}
-			</div>
-		</div>
+			</Row>
+		</Container>
 	);
 };
 
