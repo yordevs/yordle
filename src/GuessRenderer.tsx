@@ -24,7 +24,7 @@ const Container = styled.div`
 		". . . . .";
 
 	width: 80vw;
-	max-width: 500px;
+	max-width: 400px;
 `;
 
 const Cell = styled.div<ICell>`

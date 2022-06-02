@@ -17,7 +17,7 @@ const Container = styled.div`
 	align-items: center;
 
 	width: 80vw;
-	max-width: 500px;
+	max-width: 400px;
 `;
 
 const Row = styled.div`

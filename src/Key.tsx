@@ -1,30 +1,41 @@
 import styled from "styled-components";
 
 const Letters = styled.button`
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
 	width: 8vw;
 	max-width: 40px;
 	height: 9vw;
 	max-height: 58px;
-	font-weight: bold;
+
 	border-radius: 4px;
 	margin: 3px;
+
+	font-weight: bold;
 	font-size: 24px;
 	font-family: inherit;
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	color: black;
 `;
 
 const Action = styled.button`
+	display: flex;
+	color: black;
+	justify-content: center;
+	align-items: center;
+
 	width: 11vw;
 	height: 9vw;
 	max-width: 60px;
 	max-height: 58px;
-	font-weight: bold;
 	border-radius: 4px;
 	margin: 3px;
+
+	font-weight: bold;
 	font-size: 24px;
 	font-family: inherit;
+	color: black;
 `;
 
 type Props = {
