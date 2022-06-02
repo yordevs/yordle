@@ -7,7 +7,7 @@ const Letters = styled.button`
 	justify-content: center;
 	align-items: center;
 
-	width: 5vw;
+	width: 1vw;
 	max-width: 40px;
 	height: 9vw;
 	max-height: 58px;
