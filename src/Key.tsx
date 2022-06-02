@@ -1,18 +1,25 @@
 import styled from "styled-components";
 
 const Letters = styled.button`
-	width: 40px;
-	height: 58px;
+	width: 8vw;
+	max-width: 40px;
+	height: 9vw;
+	max-height: 58px;
 	font-weight: bold;
 	border-radius: 4px;
 	margin: 3px;
 	font-size: 24px;
 	font-family: inherit;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 `;
 
 const Action = styled.button`
-	width: 60px;
-	height: 58px;
+	width: 11vw;
+	height: 9vw;
+	max-width: 60px;
+	max-height: 58px;
 	font-weight: bold;
 	border-radius: 4px;
 	margin: 3px;

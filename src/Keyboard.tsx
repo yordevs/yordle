@@ -16,9 +16,8 @@ const Container = styled.div`
 	flex-direction: column;
 	align-items: center;
 
-	padding: 15px 0;
-
-	width: 100%;
+	width: 80vw;
+	max-width: 500px;
 `;
 
 const Row = styled.div`

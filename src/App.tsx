@@ -33,7 +33,7 @@ const Container = styled.div`
 
 	height: 100%;
 	width: 100%;
-	position: relative; /* squeezes header */
+	max-height: 96vh; /* When 100vh goes of page?? */
 `;
 
 const InvalidHolder = styled.div`
@@ -108,6 +108,8 @@ function App() {
 				JSON.parse(localStorage.getItem("gameOver") || "false") == true,
 			);
 			setColorHistory(JSON.parse(localStorage.getItem("colorHistory") || "[]"));
+		} else {
+			setShowHelpModal(true);
 		}
 	}, []);
 

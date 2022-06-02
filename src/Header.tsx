@@ -3,9 +3,8 @@ import { BiHelpCircle, BiBarChartAlt2 } from "react-icons/bi";
 
 const Container = styled.div`
 	height: 5em;
-	width: 100%;
+	width: 100vw;
 	border-bottom: 2px solid #939b9f;
-	position: absolute;
 	left: 0px;
 	display: flex;
 	justify-content: space-between;

@@ -7,24 +7,24 @@ type Props = {
 
 interface ICell {
 	getColour: string;
+	getColumn: string;
 }
 
 const Container = styled.div`
-	display: flex;
-	gap: 10px;
-	flex-direction: column;
-	align-items: center;
-	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
+	gap: 2vw 1vw;
+	grid-template-areas:
+		". . . . ."
+		". . . . ."
+		". . . . ."
+		". . . . ."
+		". . . . ."
+		". . . . .";
 
-	padding: 10px 0;
-`;
-
-const Row = styled.div`
-	display: flex;
-	gap: 10px;
-	width: 95%;
-	justify-content: center;
-	padding: 0 10px;
+	width: 80vw;
+	max-width: 500px;
 `;
 
 const Cell = styled.div<ICell>`
@@ -33,8 +33,7 @@ const Cell = styled.div<ICell>`
 	justify-content: center;
 	align-items: center;
 
-	height: 75px;
-	width: 75px;
+	aspect-ratio: 1;
 
 	background-color: #efefef;
 	background-color: ${(props) => props.getColour};
@@ -61,16 +60,19 @@ export function GuessRenderer({ guesses, colorHistory }: Props) {
 	return (
 		<Container>
 			{[0, 1, 2, 3, 4, 5].map((row) => (
-				<Row key={row}>
+				<>
 					{[0, 1, 2, 3, 4].map((char) => {
 						//console.log(guesses);
 						return (
-							<Cell key={char} getColour={getLetterColour(row, char)}>
+							<Cell
+								key={char}
+								getColour={getLetterColour(row, char)}
+								getColumn={char.toString()}>
 								{guesses[row] && guesses[row][char] ? guesses[row][char] : null}
 							</Cell>
 						);
 					})}
-				</Row>
+				</>
 			))}
 		</Container>
 	);

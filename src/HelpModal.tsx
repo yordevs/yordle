@@ -150,7 +150,7 @@ export const HelpModal = ({ show, onHide }: Props) => {
 					<Text>
 						Guess the <b>YORDLE</b> in six tries.
 					</Text>
-					<Text>Every answer is a five letter word related to York</Text>
+					<Text>Every answer is a five letter word related to York.</Text>
 					<Text>
 						A guess can be any valid five-letter word. Hit the enter button to
 						submit.
