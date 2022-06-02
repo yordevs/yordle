@@ -1,11 +1,13 @@
 import styled from "styled-components";
+import { FiDelete } from "react-icons/fi";
+import { AiOutlineEnter } from "react-icons/ai";
 
 const Letters = styled.button`
 	display: flex;
 	justify-content: center;
 	align-items: center;
 
-	width: 8vw;
+	width: 5vw;
 	max-width: 40px;
 	height: 9vw;
 	max-height: 58px;
@@ -49,8 +51,18 @@ export const Key = ({ value, onClick, colour }: Props) => {
 		onClick(value);
 	};
 
-	if (value === "↵" || value === "🠔") {
-		return <Action onClick={handleClick}>{value}</Action>;
+	if (value === "↵") {
+		return (
+			<Action onClick={handleClick}>
+				<AiOutlineEnter />
+			</Action>
+		);
+	} else if (value == "🠔") {
+		return (
+			<Action onClick={handleClick}>
+				<FiDelete />
+			</Action>
+		);
 	} else {
 		return (
 			<Letters onClick={handleClick} style={{ background: colour }}>
