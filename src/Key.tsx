@@ -7,7 +7,7 @@ const Letters = styled.div`
 	justify-content: center;
 	align-items: center;
 
-	width: 5vw;
+	width: 100%;
 	max-width: 40px;
 	height: 9vw;
 	max-height: 58px;
@@ -17,7 +17,7 @@ const Letters = styled.div`
 	margin: 3px;
 
 	font-weight: bold;
-	font-size: 24px;
+	font-size: 20px;
 	font-family: inherit;
 	color: black;
 
@@ -32,7 +32,7 @@ const Action = styled.div`
 	justify-content: center;
 	align-items: center;
 
-	width: 11vw;
+	width: 200%;
 	height: 9vw;
 	max-width: 60px;
 	max-height: 58px;

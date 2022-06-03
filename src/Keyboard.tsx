@@ -23,7 +23,7 @@ const Container = styled.div`
 const Row = styled.div`
 	display: flex;
 	width: 100%;
-	justify-content: center;
+	justify-content: space-between;
 `;
 
 export const Keyboard = ({
