@@ -10,6 +10,7 @@ import { GlobalStyle } from "./globalStyles";
 import { Header } from "./Header";
 import { StatsModal } from "./StatsModal";
 import { HelpModal } from "./HelpModal";
+import { AnswerModal } from "./AnswerModal";
 
 /* eslint-disable  @typescript-eslint/no-non-null-assertion */
 
@@ -82,6 +83,8 @@ function App() {
 	const [showHelpModal, setShowHelpModal] = useState(false);
 	const [answer, setAnswer] = useState("");
 	const [showAnswer, setShowAnswer] = useState(false);
+	const [description, setDescription] = useState("");
+	const [showAnswerModal, setShowAnswerModal] = useState(false);
 
 	useEffect(() => {
 		setGuesses((guesses) => [...guesses.slice(0, -1), currentGuess]);
@@ -109,7 +112,7 @@ function App() {
 				JSON.parse(localStorage.getItem("letterStates") || "{}"),
 			);
 		} else {
-			setShowHelpModal(true);
+			showHelp();
 		}
 	}, []);
 
@@ -131,6 +134,16 @@ function App() {
 	function hideHelp() {
 		setShowHelpModal(false);
 		document.getElementById("main-container")!.style.filter = "";
+	}
+
+	function onShowAnswerModal() {
+		setShowAnswerModal(true);
+		document.getElementById("main-container")!.style.filter = "";
+	}
+
+	function onHideAnswerModal() {
+		setShowAnswerModal(false);
+		setShowStatsModal(true);
 	}
 
 	function updateStats(win: boolean) {
@@ -207,10 +220,9 @@ function App() {
 			setGameOver(true);
 			storeState("gameOver", "true");
 			setGameWon(true);
-			setTimeout(showStats, 500);
-			console.log(
-				"The word was: " + currentGuess + ". Because: " + data.description,
-			);
+			setTimeout(onShowAnswerModal, 500);
+			setAnswer(currentGuess);
+			setDescription(data.description || "");
 		}
 
 		if (data.result) {
@@ -233,16 +245,19 @@ function App() {
 		setLetterStateHistory(newLetterStates);
 		storeState("letterStates", JSON.stringify(newLetterStates));
 
+		console.log(data);
+
 		if (guessNumber + 1 === 6) {
 			updateStats(false);
 			setGameOver(true);
 			storeState("gameOver", "true");
-			setAnswer(data.answer || "");
+			setAnswer(data.answer?.toLocaleUpperCase() || "");
+			setDescription(data.description || "");
 			setShowAnswer(true);
 			setTimeout(() => {
 				setShowAnswer(false);
 			}, 3000);
-			showStats();
+			setTimeout(onShowAnswerModal, 500);
 		}
 
 		storeState("guessNumber", (guessNumber + 1).toString());
@@ -287,6 +302,12 @@ function App() {
 					onHide={hideStats}
 				/>
 				<HelpModal show={showHelpModal} onHide={hideHelp} />
+				<AnswerModal
+					show={showAnswerModal}
+					answer={answer}
+					description={description}
+					onHide={onHideAnswerModal}
+				/>
 				<Container id="main-container">
 					<Header onHelp={showHelp} onStats={showStats} />
 					<GuessRenderer guesses={guesses} colorHistory={colorHistory} />
