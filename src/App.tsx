@@ -105,6 +105,9 @@ function App() {
 				JSON.parse(localStorage.getItem("gameOver") || "false") == true,
 			);
 			setColorHistory(JSON.parse(localStorage.getItem("colorHistory") || "[]"));
+			setLetterStateHistory(
+				JSON.parse(localStorage.getItem("letterStates") || "{}"),
+			);
 		} else {
 			setShowHelpModal(true);
 		}
@@ -228,6 +231,7 @@ function App() {
 		});
 
 		setLetterStateHistory(newLetterStates);
+		storeState("letterStates", JSON.stringify(newLetterStates));
 
 		if (guessNumber + 1 === 6) {
 			updateStats(false);
