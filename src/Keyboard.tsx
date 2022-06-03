@@ -18,6 +18,7 @@ const Container = styled.div`
 
 	width: 80vw;
 	max-width: 400px;
+	margin-bottom: 10px;
 `;
 
 const Row = styled.div`
