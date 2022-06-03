@@ -226,7 +226,6 @@ export const StatsModal = ({
 			const shareData = {
 				tile: "Yordle",
 				text: shareString,
-				url: "https://yordevs.com",
 			};
 			try {
 				await navigator.share(shareData);
