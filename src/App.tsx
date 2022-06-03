@@ -67,8 +67,8 @@ const Answer = styled.div`
 `;
 
 function App() {
-	const [letterStateHistory, setLetterStateHistory] = useState<LetterMapping[]>(
-		[],
+	const [letterStateHistory, setLetterStateHistory] = useState<LetterMapping>(
+		{},
 	);
 	const [guesses, setGuesses] = useState<string[]>([]);
 	const [guessNumber, setGuessNumber] = useState(0);
@@ -99,9 +99,6 @@ function App() {
 			localStorage.getItem("lastGuess") ===
 			`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
 		) {
-			console.log(
-				JSON.parse(localStorage.getItem("gameOver") || "false") == true,
-			);
 			setGuesses(JSON.parse(localStorage.getItem("guesses") || "[]"));
 			setGuessNumber(parseInt(localStorage.getItem("guessNumber") || "0"));
 			setGameOver(
@@ -224,13 +221,15 @@ function App() {
 		const newMapping: LetterMapping = {};
 
 		// Map each colour from the response to its corresponding letter of the guess.
+		const newLetterStates: LetterMapping = JSON.parse(
+			JSON.stringify(letterStateHistory),
+		);
 		data.result?.forEach((colour, i) => {
 			const letter = currentGuess[i];
-
-			newMapping[letter] = colour;
+			newLetterStates[letter] = colour;
 		});
 
-		setLetterStateHistory([...letterStateHistory, newMapping]);
+		setLetterStateHistory(newLetterStates);
 
 		if (guessNumber + 1 === 6) {
 			updateStats(false);
