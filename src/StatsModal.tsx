@@ -230,7 +230,6 @@ export const StatsModal = ({
 			try {
 				await navigator.share(shareData);
 			} catch (err) {
-				alert(err);
 				console.error(err);
 			}
 		} else {
