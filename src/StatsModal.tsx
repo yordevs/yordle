@@ -8,12 +8,13 @@ import { Graph } from "./Graph";
 
 const Container = styled.div`
 	position: absolute;
-	top: 45%;
+	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);
 	z-index: 100;
 
 	width: 400px;
+	max-width: 90vw;
 	border-radius: 5px;
 
 	background-color: white;
