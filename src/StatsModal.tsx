@@ -168,9 +168,8 @@ export const StatsModal = ({
 				onHide();
 				window.removeEventListener("click", click);
 			}
-		} catch (err) {
+		} catch {
 			console.error("Event listener was not removed");
-			alert(err);
 			window.removeEventListener("click", click);
 		}
 	}
@@ -232,6 +231,7 @@ export const StatsModal = ({
 			try {
 				await navigator.share(shareData);
 			} catch (err) {
+				alert(err);
 				console.error(err);
 			}
 		} else {
