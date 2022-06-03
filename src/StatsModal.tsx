@@ -167,8 +167,9 @@ export const StatsModal = ({
 				onHide();
 				window.removeEventListener("click", click);
 			}
-		} catch {
+		} catch (err) {
 			console.error("Event listener was not removed");
+			alert(err);
 			window.removeEventListener("click", click);
 		}
 	}
