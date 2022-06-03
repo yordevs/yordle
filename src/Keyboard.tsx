@@ -7,7 +7,7 @@ type Props = {
 	sendGuess: () => void;
 	addLetterToGuess: (letter: string) => void;
 	removeLetterFromGuess: () => void;
-	letterStateHistory: LetterMapping[];
+	letterStateHistory: LetterMapping;
 	gameOver: boolean;
 };
 
@@ -71,12 +71,16 @@ export const Keyboard = ({
 	}
 
 	function updateKeyboardColour(letter: string) {
-		letterStateHistory.map((element) => {
-			if (element[letter] !== null) {
-				return element[letter];
-			}
-		});
-		return "";
+		const colors: { [key: string]: string } = {
+			yellow: "#CEB02C",
+			green: "#66A060",
+			grey: "#939B9F",
+		};
+
+		if (letter in letterStateHistory) {
+			return colors[letterStateHistory[letter]];
+		}
+		return "#efefef";
 	}
 
 	return (

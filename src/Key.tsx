@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { FiDelete } from "react-icons/fi";
 import { AiOutlineEnter } from "react-icons/ai";
 
-const Letters = styled.button`
+const Letters = styled.div`
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -13,15 +13,20 @@ const Letters = styled.button`
 	max-height: 58px;
 
 	border-radius: 4px;
+	border: 1px solid black;
 	margin: 3px;
 
 	font-weight: bold;
 	font-size: 24px;
 	font-family: inherit;
 	color: black;
+
+	&:hover {
+		cursor: pointer;
+	}
 `;
 
-const Action = styled.button`
+const Action = styled.div`
 	display: flex;
 	color: black;
 	justify-content: center;
@@ -31,13 +36,19 @@ const Action = styled.button`
 	height: 9vw;
 	max-width: 60px;
 	max-height: 58px;
+
 	border-radius: 4px;
+	border: 1px solid black;
 	margin: 3px;
 
 	font-weight: bold;
 	font-size: 24px;
 	font-family: inherit;
 	color: black;
+
+	&:hover {
+		cursor: pointer;
+	}
 `;
 
 type Props = {
@@ -47,25 +58,25 @@ type Props = {
 };
 
 export const Key = ({ value, onClick, colour }: Props) => {
-	const handleClick: React.MouseEventHandler<HTMLButtonElement> = () => {
+	function handleClick() {
 		onClick(value);
-	};
+	}
 
 	if (value === "↵") {
 		return (
-			<Action onClick={handleClick}>
+			<Action onClick={handleClick} style={{ backgroundColor: colour }}>
 				<AiOutlineEnter />
 			</Action>
 		);
 	} else if (value == "🠔") {
 		return (
-			<Action onClick={handleClick}>
+			<Action onClick={handleClick} style={{ backgroundColor: colour }}>
 				<FiDelete />
 			</Action>
 		);
 	} else {
 		return (
-			<Letters onClick={handleClick} style={{ background: colour }}>
+			<Letters onClick={handleClick} style={{ backgroundColor: colour }}>
 				{value}
 			</Letters>
 		);

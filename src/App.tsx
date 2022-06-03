@@ -218,8 +218,6 @@ function App() {
 			);
 		}
 
-		const newMapping: LetterMapping = {};
-
 		// Map each colour from the response to its corresponding letter of the guess.
 		const newLetterStates: LetterMapping = JSON.parse(
 			JSON.stringify(letterStateHistory),
