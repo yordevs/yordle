@@ -85,6 +85,7 @@ function App() {
 	const [showAnswer, setShowAnswer] = useState(false);
 	const [description, setDescription] = useState("");
 	const [showAnswerModal, setShowAnswerModal] = useState(false);
+	const [awaitingResponse, setAwaitingResponse] = useState(false);
 
 	useEffect(() => {
 		setGuesses((guesses) => [...guesses.slice(0, -1), currentGuess]);
@@ -184,7 +185,8 @@ function App() {
 
 	async function sendGuess() {
 		if (currentGuess.length < 5) return;
-
+		if (awaitingResponse) return;
+		setAwaitingResponse(true);
 		const res = await fetch("https://yordle.herokuapp.com/guess", {
 			method: "POST",
 			headers: { "Content-Type": "application/json" },
@@ -198,6 +200,7 @@ function App() {
 		const data: ResponseBody = await res.json();
 
 		if (!data.valid) {
+			setAwaitingResponse(false);
 			setShowInvalid(true);
 			setTimeout(() => {
 				setShowInvalid(false);
@@ -216,6 +219,7 @@ function App() {
 				return e !== "green";
 			}).length === 0
 		) {
+			setAwaitingResponse(false);
 			updateStats(true);
 			setGameOver(true);
 			storeState("gameOver", "true");
@@ -226,6 +230,7 @@ function App() {
 		}
 
 		if (data.result) {
+			setAwaitingResponse(false);
 			setColorHistory([...colorHistory, data.result]);
 			storeState(
 				"colorHistory",
