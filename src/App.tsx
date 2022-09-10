@@ -230,6 +230,17 @@ function App() {
 			setTimeout(onShowAnswerModal, 500);
 			setAnswer(currentGuess);
 			setDescription(data.description || "");
+		} else if (guessNumber + 1 === 6) {
+			updateStats(false);
+			setGameOver(true);
+			storeState("gameOver", "true");
+			setAnswer(data.answer?.toLocaleUpperCase() || "");
+			setDescription(data.description || "");
+			setShowAnswer(true);
+			setTimeout(() => {
+				setShowAnswer(false);
+			}, 3000);
+			setTimeout(onShowAnswerModal, 500);
 		}
 
 		if (data.result) {
@@ -252,21 +263,6 @@ function App() {
 
 		setLetterStateHistory(newLetterStates);
 		storeState("letterStates", JSON.stringify(newLetterStates));
-
-		console.log(data);
-
-		if (guessNumber + 1 === 6) {
-			updateStats(false);
-			setGameOver(true);
-			storeState("gameOver", "true");
-			setAnswer(data.answer?.toLocaleUpperCase() || "");
-			setDescription(data.description || "");
-			setShowAnswer(true);
-			setTimeout(() => {
-				setShowAnswer(false);
-			}, 3000);
-			setTimeout(onShowAnswerModal, 500);
-		}
 
 		storeState("guessNumber", (guessNumber + 1).toString());
 		setGuessNumber((prev) => prev + 1);
