@@ -159,10 +159,10 @@ function App() {
 		if (distribution.length === 0) {
 			distribution = [0, 0, 0, 0, 0, 0];
 		}
-		distribution[guessNumber] = distribution[guessNumber] + 1;
 
 		played = played + 1;
 		if (win) {
+			distribution[guessNumber] = distribution[guessNumber] + 1;
 			numWins = numWins + 1;
 			currentStreak = currentStreak += 1;
 			if (currentStreak > maxStreak) {
@@ -272,7 +272,7 @@ function App() {
 		setGuessNumber((prev) => prev + 1);
 
 		storeState("guesses", JSON.stringify([...guesses, ""]));
-		setGuesses([...guesses, currentGuess]);
+		setGuesses([...guesses, ""]);
 
 		setCurrentGuess("");
 	}
