@@ -85,6 +85,7 @@ function App() {
 	const [showAnswer, setShowAnswer] = useState(false);
 	const [description, setDescription] = useState("");
 	const [showAnswerModal, setShowAnswerModal] = useState(false);
+	const [awaitingResponse, setAwaitingResponse] = useState(false);
 
 	useEffect(() => {
 		setGuesses((guesses) => [...guesses.slice(0, -1), currentGuess]);
@@ -158,10 +159,10 @@ function App() {
 		if (distribution.length === 0) {
 			distribution = [0, 0, 0, 0, 0, 0];
 		}
-		distribution[guessNumber] = distribution[guessNumber] + 1;
 
 		played = played + 1;
 		if (win) {
+			distribution[guessNumber] = distribution[guessNumber] + 1;
 			numWins = numWins + 1;
 			currentStreak = currentStreak += 1;
 			if (currentStreak > maxStreak) {
@@ -184,20 +185,25 @@ function App() {
 
 	async function sendGuess() {
 		if (currentGuess.length < 5) return;
-
-		const res = await fetch("https://yordle.herokuapp.com/guess", {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				guess: currentGuess,
-				guessNumber: guessNumber,
-				uuid: cookies.uuid,
-			}),
-		});
+		if (awaitingResponse) return;
+		setAwaitingResponse(true);
+		const res = await fetch(
+			"https://hammerhead-app-jjw84.ondigitalocean.app/guess",
+			{
+				method: "POST",
+				headers: { "Content-Type": "application/json" },
+				body: JSON.stringify({
+					guess: currentGuess,
+					guessNumber: guessNumber,
+					uuid: cookies.uuid,
+				}),
+			},
+		);
 
 		const data: ResponseBody = await res.json();
 
 		if (!data.valid) {
+			setAwaitingResponse(false);
 			setShowInvalid(true);
 			setTimeout(() => {
 				setShowInvalid(false);
@@ -216,6 +222,7 @@ function App() {
 				return e !== "green";
 			}).length === 0
 		) {
+			setAwaitingResponse(false);
 			updateStats(true);
 			setGameOver(true);
 			storeState("gameOver", "true");
@@ -226,6 +233,7 @@ function App() {
 		}
 
 		if (data.result) {
+			setAwaitingResponse(false);
 			setColorHistory([...colorHistory, data.result]);
 			storeState(
 				"colorHistory",
@@ -264,7 +272,7 @@ function App() {
 		setGuessNumber((prev) => prev + 1);
 
 		storeState("guesses", JSON.stringify([...guesses, ""]));
-		setGuesses([...guesses, currentGuess]);
+		setGuesses([...guesses, ""]);
 
 		setCurrentGuess("");
 	}

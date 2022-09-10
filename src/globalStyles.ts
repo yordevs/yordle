@@ -4,6 +4,7 @@ export const GlobalStyle = createGlobalStyle`
   html, body {
     height: 100%;
     font-family: "Roboto";
+    user-select: none;
   } 
 
   body {
