@@ -258,7 +258,16 @@ function App() {
 		);
 		data.result?.forEach((colour, i) => {
 			const letter = currentGuess[i];
-			newLetterStates[letter] = colour;
+			if (letterStateHistory[letter] !== "green") {
+				if (letterStateHistory[letter] === "yellow" && colour !== "grey") {
+					newLetterStates[letter] = colour;
+				} else if (
+					letterStateHistory[letter] === "grey" ||
+					!letterStateHistory[letter]
+				) {
+					newLetterStates[letter] = colour;
+				}
+			}
 		});
 
 		setLetterStateHistory(newLetterStates);
