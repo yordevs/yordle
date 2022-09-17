@@ -29,17 +29,8 @@ const Holder = styled.div`
 	justify-content: space-between;
 `;
 
-const HelpHolder = styled.div`
-	margin-left: 1.5em;
-	font-size: 30px;
-
-	&:hover {
-		cursor: pointer;
-	}
-`;
-
-const StatsHolder = styled.div`
-	margin-right: 1.5em;
+const IconHolder = styled.div`
+	margin: 0.5em;
 	font-size: 30px;
 
 	&:hover {
@@ -73,21 +64,21 @@ export const Header = ({ onHelp, onStats }: Props) => {
 		<div>
 			<Container>
 				<Holder>
-					<HelpHolder onClick={onHelpClick}>
+					<IconHolder onClick={onHelpClick}>
 						<BiHelpCircle />
-					</HelpHolder>
-					<HelpHolder>
+					</IconHolder>
+					<IconHolder>
 						<HiOutlineLightBulb onClick={onIdeaClick} />
-					</HelpHolder>
+					</IconHolder>
 				</Holder>
 				<Title>Yordle</Title>
 				<Holder>
-					<StatsHolder>
+					<IconHolder>
 						<BiBug onClick={onBugClick} />
-					</StatsHolder>
-					<StatsHolder onClick={onStatsClick}>
+					</IconHolder>
+					<IconHolder onClick={onStatsClick}>
 						<BiBarChartAlt2 />
-					</StatsHolder>
+					</IconHolder>
 				</Holder>
 			</Container>
 		</div>
