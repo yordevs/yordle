@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { BiHelpCircle, BiBarChartAlt2 } from "react-icons/bi";
+import { BiHelpCircle, BiBarChartAlt2, BiBug } from "react-icons/bi";
+import { HiOutlineLightBulb } from "react-icons/hi";
 
 const Container = styled.div`
 	height: 5em;
@@ -22,8 +23,14 @@ const Title = styled.div`
 	pointer-events: none;
 `;
 
-const HelpHolder = styled.div`
-	margin-left: 1.5em;
+const Holder = styled.div`
+	display: flex;
+	align-items: centre;
+	justify-content: space-between;
+`;
+
+const IconHolder = styled.div`
+	margin: 0.5em;
 	font-size: 30px;
 
 	&:hover {
@@ -31,9 +38,10 @@ const HelpHolder = styled.div`
 	}
 `;
 
-const StatsHolder = styled.div`
-	margin-right: 1.5em;
+const IconLinkHolder = styled.a`
+	margin: 0.5em;
 	font-size: 30px;
+	color: #000;
 
 	&:hover {
 		cursor: pointer;
@@ -57,13 +65,27 @@ export const Header = ({ onHelp, onStats }: Props) => {
 	return (
 		<div>
 			<Container>
-				<HelpHolder onClick={onHelpClick}>
-					<BiHelpCircle />
-				</HelpHolder>
+				<Holder>
+					<IconHolder onClick={onHelpClick}>
+						<BiHelpCircle />
+					</IconHolder>
+					<IconLinkHolder
+						href="https://forms.gle/cSsuVwrnzuqDmp3q7"
+						target="_blank">
+						<HiOutlineLightBulb />
+					</IconLinkHolder>
+				</Holder>
 				<Title>Yordle</Title>
-				<StatsHolder onClick={onStatsClick}>
-					<BiBarChartAlt2 />
-				</StatsHolder>
+				<Holder>
+					<IconLinkHolder
+						href="https://forms.gle/DfPqjBr1uXyW3Etb6"
+						target="_blank">
+						<BiBug />
+					</IconLinkHolder>
+					<IconHolder onClick={onStatsClick}>
+						<BiBarChartAlt2 />
+					</IconHolder>
+				</Holder>
 			</Container>
 		</div>
 	);
