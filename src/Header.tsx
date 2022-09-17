@@ -38,6 +38,16 @@ const IconHolder = styled.div`
 	}
 `;
 
+const IconLinkHolder = styled.a`
+	margin: 0.5em;
+	font-size: 30px;
+	color: #000;
+
+	&:hover {
+		cursor: pointer;
+	}
+`;
+
 type Props = {
 	onHelp: () => void;
 	onStats: () => void;
@@ -52,14 +62,6 @@ export const Header = ({ onHelp, onStats }: Props) => {
 		onStats();
 	}
 
-	function onBugClick() {
-		window.open("https://forms.gle/DfPqjBr1uXyW3Etb6");
-	}
-
-	function onIdeaClick() {
-		window.open("https://forms.gle/cSsuVwrnzuqDmp3q7");
-	}
-
 	return (
 		<div>
 			<Container>
@@ -67,15 +69,19 @@ export const Header = ({ onHelp, onStats }: Props) => {
 					<IconHolder onClick={onHelpClick}>
 						<BiHelpCircle />
 					</IconHolder>
-					<IconHolder>
-						<HiOutlineLightBulb onClick={onIdeaClick} />
-					</IconHolder>
+					<IconLinkHolder
+						href="https://forms.gle/cSsuVwrnzuqDmp3q7"
+						target="_blank">
+						<HiOutlineLightBulb />
+					</IconLinkHolder>
 				</Holder>
 				<Title>Yordle</Title>
 				<Holder>
-					<IconHolder>
-						<BiBug onClick={onBugClick} />
-					</IconHolder>
+					<IconLinkHolder
+						href="https://forms.gle/DfPqjBr1uXyW3Etb6"
+						target="_blank">
+						<BiBug />
+					</IconLinkHolder>
 					<IconHolder onClick={onStatsClick}>
 						<BiBarChartAlt2 />
 					</IconHolder>
