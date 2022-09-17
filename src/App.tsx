@@ -108,6 +108,7 @@ function App() {
 			setGameOver(
 				JSON.parse(localStorage.getItem("gameOver") || "false") == true,
 			);
+			setGameWon(parseInt(localStorage.getItem("currentStreak") || "0") != 0);
 			setColorHistory(JSON.parse(localStorage.getItem("colorHistory") || "[]"));
 			setLetterStateHistory(
 				JSON.parse(localStorage.getItem("letterStates") || "{}"),
