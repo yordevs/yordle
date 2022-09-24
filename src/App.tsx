@@ -189,7 +189,7 @@ function App() {
 		if (awaitingResponse) return;
 		setAwaitingResponse(true);
 		const res = await fetch(
-			"https://hammerhead-app-jjw84.ondigitalocean.app/guess",
+			"https://api.yordle.co.uk/guess",
 			{
 				method: "POST",
 				headers: { "Content-Type": "application/json" },
