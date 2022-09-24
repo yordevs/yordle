@@ -216,7 +216,8 @@ export const StatsModal = ({
 			})
 			.join("\n");
 		const shareString =
-			`Yordle ${date}/${month}  ${attemptString}\n\n` + guessStrings; //+"\n\nhttps://yordevs.com";
+			`Yordle ${date}/${month}  ${attemptString}\n\n` + guessStrings;
+		+"\n\nhttps://yordle.co.uk";
 
 		if (
 			/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
