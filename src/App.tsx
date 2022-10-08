@@ -114,6 +114,8 @@ function App() {
 				JSON.parse(localStorage.getItem("letterStates") || "{}"),
 			);
 		} else {
+			setGameOver(false);
+			storeState("gameOver", "false");
 			showHelp();
 		}
 	}, []);
@@ -188,18 +190,15 @@ function App() {
 		if (currentGuess.length < 5) return;
 		if (awaitingResponse) return;
 		setAwaitingResponse(true);
-		const res = await fetch(
-			"https://api.yordle.co.uk/guess",
-			{
-				method: "POST",
-				headers: { "Content-Type": "application/json" },
-				body: JSON.stringify({
-					guess: currentGuess,
-					guessNumber: guessNumber,
-					uuid: cookies.uuid,
-				}),
-			},
-		);
+		const res = await fetch("https://api.yordle.co.uk/guess", {
+			method: "POST",
+			headers: { "Content-Type": "application/json" },
+			body: JSON.stringify({
+				guess: currentGuess,
+				guessNumber: guessNumber,
+				uuid: cookies.uuid,
+			}),
+		});
 
 		const data: ResponseBody = await res.json();
 
